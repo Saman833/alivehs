@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('clubs', function (Blueprint $table) {
-            $table->id();
+            $table->id()->primary();
             $table->timestamps();
             $table->integer('number_of_members');
-            $table->string('name');
+            $table->string('name')->unique();
             $table->string('description');
-            $table->string('owner_id');
+            $table->integer('owner_id');
         });
     }
     /**

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('memberships', function (Blueprint $table) {
             $table->id();
-            $table->timestamp("created_at")->useCurrent();
+            $table->timestamps();
             $table->integer("user_id");
             $table->integer("club_id");
             $table->string("role");
