@@ -17,6 +17,8 @@
                 :name="$event->name"
                 :description="Str::limit($event->description, 100)"
                 :happening_time="$event->happening_time"
+                :is-enrolled="in_array($event->id, $userEnrolledEvents)"
+                :participants="$event->participants"
             />
         @endforeach
     </div>

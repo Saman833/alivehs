@@ -45,4 +45,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function enrolledEvents()
+    {
+        return $this->belongsToMany(Event::class, 'event_user');
+    }
+
 }

@@ -18,17 +18,24 @@ class EventCard extends Component
     public $name;
     public $description;
     public $happeningTime;
+    public $isEnrolled;
+    public $participants;
+
 
     /**
      * Create a new component instance.
      */
-    public function __construct($eventId,$image="https://via.placeholder.com/300x200", $name, $description,$happeningTime=1)
+    public function __construct($eventId,$image="https://via.placeholder.com/300x200", $name, $description,$happeningTime=1,$isEnrolled=false,$participants)
     {
         $this->eventId = $eventId;
         $this->image = $image;
         $this->name = $name;
         $this->description = $description;
         $this->happeningTime = $happeningTime;
+        $this->isEnrolled = $isEnrolled;
+        $this->participants=$participants;
+
+
     }
 
     /**

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->text('description')->nullable();
             $table->integer('club_id')->nullable();
+            $table->integer('participants')->nullable(1);
             $table->dateTime('happening_time')->nullable();
         });
     }

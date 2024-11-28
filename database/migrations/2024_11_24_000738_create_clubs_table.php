@@ -16,7 +16,7 @@ return new class extends Migration
             $table->timestamps();
             $table->integer('number_of_members');
             $table->string('name')->unique();
-            $table->string('description');
+            $table->text('description');
             $table->integer('owner_id');
         });
     }

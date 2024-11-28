@@ -23,9 +23,8 @@
 
         <!-- Event Form -->
         <form action="{{ route('events.update', $event->id) }}" method="POST" enctype="multipart/form-data">
-            @csrf
             @method('PUT')
-
+            @csrf
             <!-- Event Name -->
             <div class="mb-4">
                 <label for="name" class="block text-gray-700 font-medium mb-2">Event Name</label>

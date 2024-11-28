@@ -14,7 +14,9 @@ class EventController extends Controller
     public function index()
     {
         $events = Event::all();
-        return view('events.index', compact('events'));
+        $userEnrolledEvents = auth()->user()?->enrolledEvents->pluck('id')->toArray() ?? [];
+
+        return view('events.index', compact('events', 'userEnrolledEvents'));
     }
 
     /**
@@ -100,4 +102,18 @@ class EventController extends Controller
         $event->delete();
         return redirect()->route('events.index')->with('success', 'Event deleted successfully!');
     }
+    public function join(Request $request, Event $event)
+    {
+        #dd($event);
+        $user = auth()->user();
+
+        if ($user != null && !$user?->enrolledEvents->contains($event->id)) {
+            $user->enrolledEvents()->attach($event->id);
+        }else if ($user == null) {
+            return view('auth.register');
+        }
+
+        return redirect()->route('events.index')->with('success', 'You have joined the event successfully!');
+    }
+
 }
