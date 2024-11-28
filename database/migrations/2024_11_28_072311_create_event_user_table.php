@@ -11,15 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('events', function (Blueprint $table) {
+        Schema::create('event_user', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('name');
-            $table->date('scheduled_at')->nullable();
-            $table->dateTime('started_at')->nullable();
-            $table->dateTime('ended_at')->nullable();
-            $table->integer("number_of_attendees")->nullable();
-            $table->integer("club_id")->nullable();
         });
     }
 
@@ -28,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('events');
+        Schema::dropIfExists('event_user');
     }
 };

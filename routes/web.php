@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClubController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,3 +23,4 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 Route::resource('clubs', ClubController::class);
+Route::resource('events', EventController::class);
