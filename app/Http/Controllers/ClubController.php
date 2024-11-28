@@ -18,7 +18,7 @@ class ClubController extends Controller
     }
     public function index()
     {
-        $clubs = Club::all();
+        $clubs = Club::with("owner")->get();
         return view('club.index', compact('clubs'));
     }
 
