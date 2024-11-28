@@ -106,9 +106,11 @@ class EventController extends Controller
     {
         #dd($event);
         $user = auth()->user();
-
         if ($user != null && !$user?->enrolledEvents->contains($event->id)) {
             $user->enrolledEvents()->attach($event->id);
+            $event = Event::find($event->id);
+            $event->participants += 1; // Increment the participants count
+            $event->save();
         }else if ($user == null) {
             return view('auth.register');
         }
