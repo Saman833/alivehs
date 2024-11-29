@@ -104,27 +104,21 @@ class EventController extends Controller
     }
     public function join(Request $request,$id){
         $event=Event::find($id);
-        #dd($event);
         $user = auth()->user();
-        if ($user != null && !$user?->enrolledEvents->contains($event->id)) {
+        if (!$user?->enrolledEvents->contains($event->id)) {
             $user->enrolledEvents()->attach($event->id);
             $event = Event::find($event->id);
             $event->participants += 1; // Increment the participants count
             $event->save();
-        }else if ($user == null) {
-            return view('auth.register');
         }
-
         return redirect()->back();
     }
     public function futureEvents(Request $request, Event $event){
-
-
+      # an option that will be added in close feature!!
     }
     public function myevents(){
         $user = auth()->user();
         $pageTitle="My Events";
-        if ($user != null) {
             $enrollEvents = $user->enrolledEvents; // Get events the user is enrolled in
             $clubs = $user->memberships;
             $clubEvents = Event::whereIn('club_id', $clubs->pluck('id'))->get();
@@ -137,8 +131,6 @@ class EventController extends Controller
             } else {
                 return view('events.index', ['events' => []]); // Handle no events case
             }
-        }
-            return view('auth.register');
     }
 
 }

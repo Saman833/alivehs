@@ -19,18 +19,9 @@ class ClubController extends Controller
     public function index()
     {
         $user = auth()->user();
-
-        // Retrieve all clubs and eager load the 'members' relationship
         $clubs = Club::with('members')->get();
-
-        // If the user is authenticated, eager load the 'memberships' relationship
-        if ($user) {
-            $user->load('memberships');
-            $userClubMemberships = $user->memberships->pluck('id')->toArray(); // Get IDs of user's memberships
-        } else {
-            $userClubMemberships = [];
-        }
-
+        $user->load('memberships');
+        $userClubMemberships = $user->memberships->pluck('id')->toArray(); // Get IDs of user's memberships
         return view('club.index', [
             'clubs' => $clubs,
             'userClubMemberships' => $userClubMemberships,
@@ -89,11 +80,8 @@ class ClubController extends Controller
             'name' => ['required', 'string', 'min:4', 'max:255'],
             'description' => ['required', 'string' , 'min:10'],
             'owner_id' => ['required', 'numeric'],
-            #'categories' => ['nullable', 'array'],
-            #'image' => ['nullable', 'file', 'image', 'max:4096'],
         ]);
         $club = Club::find($club->id);
-//        dd($club);
         $club->update([
             'name' => $request->name,
             'description' => $request->description,
@@ -118,15 +106,13 @@ class ClubController extends Controller
     public function destroy($id)
     {
         $club = Club::find($id);
-//        dd($club);
         $club->delete();
         return redirect()->route('clubs.index');
     }
     public function join(Request $request, $clubId)
     {
         $user = auth()->user();
-
-        if ($user && !$user->memberships()->where('club_id', $clubId)->exists()) {
+        if (!$user->memberships()->where('club_id', $clubId)->exists()) {
             $user->memberships()->attach($clubId);
 
             // Optionally increment the number of members
@@ -135,14 +121,11 @@ class ClubController extends Controller
             $club->save();
 
             return redirect()->route("clubs.index")->with('success', 'You have successfully joined the club.');
-        }else if (!$user){
-            return view('auth.register');
         }
         return redirect()->back()->with('error', 'You are already a member of this club.');
     }
     public function myClubs(){
         $user = auth()->user();
-        if ($user != null) {
             $clubs = $user->load('memberships')->memberships;
             if (!$clubs->isEmpty()) {
                 $userClubMemberships = auth()->user()?->memberships->pluck('id')->toArray() ?? [];
@@ -153,8 +136,6 @@ class ClubController extends Controller
             } else {
                 return view('club.index', ['clubs' => []]); // Handle no events case
             }
-        }
-        return view('auth.register');
     }
 
 }
