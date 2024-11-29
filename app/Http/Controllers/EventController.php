@@ -117,5 +117,22 @@ class EventController extends Controller
 
         return redirect()->route('events.index')->with('success', 'You have joined the event successfully!');
     }
+    public function futureEvents(Request $request, Event $event){
+
+
+    }
+    public function myevents(){
+        $user = auth()->user();
+        if ($user != null) {
+            $events = $user->load('enrolledEvents')->enrolledEvents;
+            if (!$events->isEmpty()) {
+                $userEnrolledEvents = auth()->user()?->enrolledEvents->pluck('id')->toArray() ?? [];
+                return view('events.index', compact('events','userEnrolledEvents'));
+            } else {
+                return view('events.index', ['events' => []]); // Handle no events case
+            }
+        }
+            return view('auth.register');
+    }
 
 }
