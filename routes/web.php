@@ -25,5 +25,8 @@ require __DIR__.'/auth.php';
 Route::resource('clubs', ClubController::class);
 Route::resource('events', EventController::class);
 Route::put('events/{event}/join', [EventController::class, 'join'])->name('events.join');
-Route::get('/myevents', [EventController::class, 'myEvents'])->name(' eventsMine');
+Route::get('/myevents', [EventController::class, 'myEvents'])->name('what');
+Route::get('/myclubs', [ClubController::class, 'myClubs'])->name('clubs.mine');
+Route::put('clubs/{club}/join', [ClubController::class, 'join'])->name('clubs.join');
+
 

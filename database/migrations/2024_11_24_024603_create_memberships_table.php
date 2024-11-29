@@ -16,7 +16,7 @@ return new class extends Migration
             $table->timestamps();
             $table->integer("user_id");
             $table->integer("club_id");
-            $table->string("role");
+            #$table->string("role");
         });
     }
 

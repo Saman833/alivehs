@@ -18,8 +18,23 @@ class ClubController extends Controller
     }
     public function index()
     {
-        $clubs = Club::with("owner")->get();
-        return view('club.index', compact('clubs'));
+        $user = auth()->user();
+
+        // Retrieve all clubs and eager load the 'members' relationship
+        $clubs = Club::with('members')->get();
+
+        // If the user is authenticated, eager load the 'memberships' relationship
+        if ($user) {
+            $user->load('memberships');
+            $userClubMemberships = $user->memberships->pluck('id')->toArray(); // Get IDs of user's memberships
+        } else {
+            $userClubMemberships = [];
+        }
+
+        return view('club.index', [
+            'clubs' => $clubs,
+            'userClubMemberships' => $userClubMemberships,
+        ]);
     }
 
     /**
@@ -107,4 +122,39 @@ class ClubController extends Controller
         $club->delete();
         return redirect()->route('clubs.index');
     }
+    public function join(Request $request, $clubId)
+    {
+        $user = auth()->user();
+
+        if ($user && !$user->memberships()->where('club_id', $clubId)->exists()) {
+            $user->memberships()->attach($clubId);
+
+            // Optionally increment the number of members
+            $club = Club::findOrFail($clubId);
+            $club->number_of_members += 1;
+            $club->save();
+
+            return redirect()->route("clubs.index")->with('success', 'You have successfully joined the club.');
+        }else if (!$user){
+            return view('auth.register');
+        }
+        return redirect()->back()->with('error', 'You are already a member of this club.');
+    }
+    public function myClubs(){
+        $user = auth()->user();
+        if ($user != null) {
+            $clubs = $user->load('memberships')->memberships;
+            if (!$clubs->isEmpty()) {
+                $userClubMemberships = auth()->user()?->memberships->pluck('id')->toArray() ?? [];
+                return view('club.index', [
+                    'clubs' => $clubs,
+                    'userClubMemberships' => $userClubMemberships,
+                ]);
+            } else {
+                return view('club.index', ['clubs' => []]); // Handle no events case
+            }
+        }
+        return view('auth.register');
+    }
+
 }

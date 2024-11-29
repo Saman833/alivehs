@@ -18,6 +18,7 @@
                 :description="Str::limit($club->description, 100)"
                 :number-of-members="$club->number_of_members"
                 :owner-name="$club->owner->name"
+                :is-member="in_array($club->id, $userClubMemberships)"
             />
         @endforeach
     </div>

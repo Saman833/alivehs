@@ -23,11 +23,11 @@ class ClubCard extends Component
     public $numberOfMembers;
     public $ownerName;
     public $image;
-
+    public $isMember;
     /**
      * Create a new component instance.
      */
-    public function __construct($clubId, $name, $description, $numberOfMembers, $ownerName="unKnown",$image="https://via.placeholder.com/300x200")
+    public function __construct($clubId, $name, $description, $numberOfMembers, $ownerName="unKnown",$image="https://via.placeholder.com/300x200",$isMember=false)
     {
         $this->clubId = $clubId;
         $this->name = $name;
@@ -35,6 +35,7 @@ class ClubCard extends Component
         $this->numberOfMembers = $numberOfMembers;
         $this->ownerName = $ownerName;
         $this->image=$image;
+        $this->isMember=$isMember;
     }
 
     /**

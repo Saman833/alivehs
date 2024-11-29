@@ -19,6 +19,7 @@
                 :happening_time="$event->happening_time"
                 :is-enrolled="in_array($event->id, $userEnrolledEvents)"
                 :participants="$event->participants"
+                :club-name="$event->club?->name"
             />
         @endforeach
     </div>

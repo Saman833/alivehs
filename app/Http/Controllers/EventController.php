@@ -102,8 +102,8 @@ class EventController extends Controller
         $event->delete();
         return redirect()->route('events.index')->with('success', 'Event deleted successfully!');
     }
-    public function join(Request $request, Event $event)
-    {
+    public function join(Request $request,$id){
+        $event=Event::find($id);
         #dd($event);
         $user = auth()->user();
         if ($user != null && !$user?->enrolledEvents->contains($event->id)) {
@@ -115,7 +115,7 @@ class EventController extends Controller
             return view('auth.register');
         }
 
-        return redirect()->route('events.index')->with('success', 'You have joined the event successfully!');
+        return redirect()->back();
     }
     public function futureEvents(Request $request, Event $event){
 
@@ -123,10 +123,31 @@ class EventController extends Controller
     }
     public function myevents(){
         $user = auth()->user();
+//        $enrolledEvents = Event::whereHas('enrolledUsers', function ($query) use ($user) {
+//            $query->where('user_id', $user->id);
+//        });
+//
+//        // Get events that belong to the clubs the user has joined
+//        $clubEvents = Event::whereHas('club', function ($query) use ($user) {
+//            $query->whereHas('members', function ($memberQuery) use ($user) {
+//                $memberQuery->where('user_id', $user->id);
+//            });
+//        });
+//
+//        // Combine the two queries and remove duplicates using union
+//        $myEvents = $enrolledEvents->union($clubEvents)->get();
+
+        #return view('myevents', compact('myEvents'));
+
         if ($user != null) {
-            $events = $user->load('enrolledEvents')->enrolledEvents;
+            $enrollEvents = $user->enrolledEvents; // Get events the user is enrolled in
+            $clubs = $user->memberships;
+            $clubEvents = Event::whereIn('club_id', $clubs->pluck('id'))->get();
+            $events = $enrollEvents->merge($clubEvents)->unique('id')->sortByDesc(function ($event) {
+                return $event->participants;
+            });
             if (!$events->isEmpty()) {
-                $userEnrolledEvents = auth()->user()?->enrolledEvents->pluck('id')->toArray() ?? [];
+                $userEnrolledEvents = (auth()->user()?->enrolledEvents->pluck('id')->toArray() ?? []);
                 return view('events.index', compact('events','userEnrolledEvents'));
             } else {
                 return view('events.index', ['events' => []]); // Handle no events case

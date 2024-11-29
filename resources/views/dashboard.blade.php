@@ -13,7 +13,7 @@
                 <a href="{{ route('clubs.index') }}" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">
                     All Clubs
                 </a>
-                <a href="{{ route('clubs.index') }}" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">
+                <a href="{{ route('clubs.mine') }}" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">
                     My Clubs
                 </a>
                 <a href="{{ route('clubs.index') }}" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">
@@ -22,7 +22,7 @@
                 <a href="{{ route('events.index') }}" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">
                     Events
                 </a>
-                <a href="{{ route('eventsMine') }}" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">
+                <a href="{{ route('what') }}" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">
                     my Events
                 </a>
             </div>
