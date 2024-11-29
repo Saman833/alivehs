@@ -123,21 +123,6 @@ class EventController extends Controller
     }
     public function myevents(){
         $user = auth()->user();
-//        $enrolledEvents = Event::whereHas('enrolledUsers', function ($query) use ($user) {
-//            $query->where('user_id', $user->id);
-//        });
-//
-//        // Get events that belong to the clubs the user has joined
-//        $clubEvents = Event::whereHas('club', function ($query) use ($user) {
-//            $query->whereHas('members', function ($memberQuery) use ($user) {
-//                $memberQuery->where('user_id', $user->id);
-//            });
-//        });
-//
-//        // Combine the two queries and remove duplicates using union
-//        $myEvents = $enrolledEvents->union($clubEvents)->get();
-
-        #return view('myevents', compact('myEvents'));
 
         if ($user != null) {
             $enrollEvents = $user->enrolledEvents; // Get events the user is enrolled in
