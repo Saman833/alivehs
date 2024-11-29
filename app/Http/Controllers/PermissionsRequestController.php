@@ -7,6 +7,15 @@ use Illuminate\Http\Request;
 
 class PermissionsRequestController extends Controller
 {
+    public function permissionsRequest() {
+        $user=auth()->user();
+        if (!PermissionsRequest::where("user_id",$user->id)->get()) {
+            PermissionsRequest::create([
+                'user_id' => $user->id
+            ]);
+        }
+        return redirect()->back();
+    }
     /**
      * Display a listing of the resource.
      */

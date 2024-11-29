@@ -36,20 +36,22 @@
                 View
             </a>
 
-            <!-- Edit Button -->
-            <a href="{{ route('clubs.edit', $clubId) }}"
-               class="px-3 py-1 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 transition">
-                Edit
-            </a>
+            @if (auth()->check() && auth()->user()->admin)
+                <!-- Edit Button -->
+                <a href="{{ route('clubs.edit', $clubId) }}"
+                   class="px-3 py-1 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 transition">
+                    Edit
+                </a>
 
-            <!-- Delete Button -->
-            <form action="{{ route('clubs.destroy', $clubId) }}" method="POST" onsubmit="return confirm('Are you sure?')">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 transition">
-                    Delete
-                </button>
-            </form>
+                <!-- Delete Button -->
+                <form action="{{ route('clubs.destroy', $clubId) }}" method="POST" onsubmit="return confirm('Are you sure?')">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 transition">
+                        Delete
+                    </button>
+                </form>
+            @endif
         </div>
     </div>
 </div>

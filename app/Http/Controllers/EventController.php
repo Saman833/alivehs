@@ -15,8 +15,8 @@ class EventController extends Controller
     {
         $events = Event::all();
         $userEnrolledEvents = auth()->user()?->enrolledEvents->pluck('id')->toArray() ?? [];
-
-        return view('events.index', compact('events', 'userEnrolledEvents'));
+        $pageTitle="All Events";
+        return view('events.index', compact('events', 'userEnrolledEvents', 'pageTitle'));
     }
 
     /**
@@ -123,7 +123,7 @@ class EventController extends Controller
     }
     public function myevents(){
         $user = auth()->user();
-
+        $pageTitle="My Events";
         if ($user != null) {
             $enrollEvents = $user->enrolledEvents; // Get events the user is enrolled in
             $clubs = $user->memberships;
@@ -133,7 +133,7 @@ class EventController extends Controller
             });
             if (!$events->isEmpty()) {
                 $userEnrolledEvents = (auth()->user()?->enrolledEvents->pluck('id')->toArray() ?? []);
-                return view('events.index', compact('events','userEnrolledEvents'));
+                return view('events.index', compact('events','userEnrolledEvents', 'pageTitle'));
             } else {
                 return view('events.index', ['events' => []]); // Handle no events case
             }

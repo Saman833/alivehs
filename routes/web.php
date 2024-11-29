@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ClubController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\PermissionsRequestController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,5 +29,5 @@ Route::put('events/{event}/join', [EventController::class, 'join'])->name('event
 Route::get('/myevents', [EventController::class, 'myEvents'])->name('what');
 Route::get('/myclubs', [ClubController::class, 'myClubs'])->name('clubs.mine');
 Route::put('clubs/{club}/join', [ClubController::class, 'join'])->name('clubs.join');
-
+Route::post('/profile/permissionsRequest', [PermissionsRequestController::class, 'permissionsRequest'])->name('permissions.request');
 

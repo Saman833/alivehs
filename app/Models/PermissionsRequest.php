@@ -9,4 +9,8 @@ class PermissionsRequest extends Model
 {
     /** @use HasFactory<\Database\Factories\PermissionsRequestFactory> */
     use HasFactory;
+    protected $fillable = [
+        'user_id'
+    ];
+
 }
