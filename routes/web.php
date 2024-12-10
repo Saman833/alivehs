@@ -27,6 +27,14 @@ Route::middleware('auth')->group(function () {
     Route::put('clubs/{club}/join', [ClubController::class, 'join'])->name('clubs.join');
     Route::post('/profile/permissionsRequest', [PermissionsRequestController::class, 'permissionsRequest'])->name('permissions.request');
 });
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/clubs/create', [ClubController::class, 'create'])->name('clubs.create');
+    Route::post('/clubs', [ClubController::class, 'store'])->name('clubs.store');
+    Route::get('/clubs/{club}/edit', [ClubController::class, 'edit'])->name('clubs.edit');
+    Route::put('/clubs/{club}', [ClubController::class, 'update'])->name('clubs.update');
+    Route::delete('/clubs/{club}', [ClubController::class, 'destroy'])->name('clubs.destroy');
+});
+
 
 require __DIR__.'/auth.php';
 
